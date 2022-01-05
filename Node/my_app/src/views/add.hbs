@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <h1 class="d-flex justify-content-center">
+    {{#if video._id}}
+    Update
+    {{else}}
+    Add
+    {{/if}} Video</h1>
+  <form 
+    method="post" 
+    {{#if video._id}}
+      action="/my-app/{{video._id}}?_method=PUT"
+    {{else}}
+      action="/my-app/create"
+    {{/if}}
+    >
+  {{#if video.slug}}
+   <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" {{#if video.slug}} value="{{video.name}}" {{else}} value="" {{/if}} name="name">
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <input type="text" class="form-control" id="description" {{#if video.slug}} value="{{video.description}}" {{else}} value="" {{/if}} name="description">
+  </div>
+  <div class="mb-3">
+    <label for="VideoID" class="form-label">ID</label>
+    <input type="text" class="form-control"  id="VideoID" {{#if video.slug}} value="{{video.VideoID}}" {{else}} value="" {{/if}} name="VideoID">
+  </div>
+  {{else}}
+   <div class="mb-3">
+    <label for="url" class="form-label">url</label>
+    <input type="text" class="form-control" id="url" {{#if video.slug}} value="{{video.name}}" {{else}} value="" {{/if}} name="url">
+  </div>
+  {{/if}}
+  <button type="submit" class="btn btn-primary">
+    {{#if video.slug}}
+    Update
+    {{else}}
+    Add
+    {{/if}}
+  </button>
+</form>
+</div>

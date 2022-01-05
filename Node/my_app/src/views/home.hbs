@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  <div class="row">
+    {{#each video}}
+      <div class="card m-2" style="width: 18rem;">
+        <img
+          src="https://img.youtube.com/vi/{{this.VideoID}}/sddefault.jpg"
+          class="card-img-top"
+          alt="{{this.name}}"
+        />
+        <div class="card-body">
+          <h5 class="card-title"><a
+              href="/my-app/{{this.slug}}"
+              style="color: black; text-decoration: none"
+            >{{this.name}}</a></h5>
+          <p class="card-text">{{this.description}}</p>
+          <a href="/my-app/{{this.slug}}" class="btn btn-primary">Views</a>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+

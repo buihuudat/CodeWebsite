@@ -1,0 +1,12 @@
+<div class="container row">
+  {{#each video}}
+    <div class="card p-2" style="width: 18rem;">
+      <img src="https://img.youtube.com/vi/{{this.id_yt}}/0.jpg" alt="" />
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}</h5>
+        <p class="card-text">{{this.description}}</p>
+        <a href="/news" class="btn btn-primary">View</a>
+      </div>
+    </div>
+  {{/each}}
+</div>

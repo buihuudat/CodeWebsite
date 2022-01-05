@@ -1,0 +1,138 @@
+<div class="container mt-5">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col">DesCription</th>
+        <th scope="col">VideoID</th>
+        <th scope="col">Time delete</th>
+        <th colspan="3" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each video}}
+        <tr>
+          <th scope="row">{{sum @index 1}}</th>
+          <td><img
+              style="width: 50px;"
+              src="https://img.youtube.com/vi/{{this.VideoID}}/sddefault.jpg"
+              class="card-img-top"
+              alt="{{this.name}}"
+            /></td>
+          <td><h6>{{this.name}}</h6></td>
+          <td>{{this.description}}</td>
+          <td>{{this.VideoID}}</td>
+          <td>{{this.deletedAt}}</td>
+          <td><a
+              class="btn btn-success restoreVideo"
+              href="my-app/edit/{{this.slug}}"
+              data-id="{{this._id}}"
+            >Restore</a></td>
+          <td><a
+              type="button"
+              class="btn btn-danger"
+              data-bs-toggle="modal"
+              data-id="{{this._id}}"
+              data-bs-target="#deleteVideo"
+            >Delete</a>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td class="text-center" colspan="8"><h1>No video yet!!!, Back to
+              <a href="/my-app">My video</a></h1></td>
+        </tr>
+      {{/each}}
+    </tbody>
+    <a href="/my-app">
+      <button class="btn btn-warning"><h5>My app</h5></button>
+    </a>
+  </table>
+</div>
+
+<div
+  class="toast align-items-center text-white bg-primary border-0"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="d-flex">
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+    <button
+      type="button"
+      class="btn-close btn-close-white me-2 m-auto"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+    ></button>
+  </div>
+</div>
+
+<div class="modal" id="deleteVideo" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">DELETE {{this.name}} video</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>ARE YOU SURE ?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          id="delete-video"
+        >Yes</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >Cannel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form action="" method="post" id="delete-form"></form>
+<form action="" method="post" id="restore-form"></form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() { 
+    var videoID; 
+    var delForm = document.forms['delete-form']; 
+    var restForm = document.forms['restore-form']; 
+    var btnDelVid = document.getElementById('delete-video');
+    var btnRestVid = $('.restoreVideo');
+
+    {{! get id }}
+    $('#deleteVideo').on('show.bs.modal', function(e) { 
+      var button = $(e.relatedTarget); 
+      videoID = button.data('id'); 
+    });
+
+    {{! on click del }}
+    btnDelVid.onclick = function() { 
+      delForm.action = '/my-app/' + videoID + '/deleteForce' + '?_method=delete'; 
+      delForm.submit(); 
+    }
+
+    {{! on click restore }}
+    btnRestVid.click(function(e) {
+      e.preventDefault();
+
+      var videoID = $(this).data('id');
+      restForm.action = '/trash/' + videoID + '/restore?_method=patch';
+      restForm.submit();
+    })
+  })
+
+</script>
